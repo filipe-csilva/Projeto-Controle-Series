@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-class SeriesController
+use Illuminate\Http\Request;
+
+class SeriesController extends Controller
 {
-    public function listarSeries(){
+    public function index(Request $request){
+        $request->get('id');
         $series = [
             'Punisher',
             'Lost',
@@ -12,13 +15,11 @@ class SeriesController
         ];
 
         $html = '<ul>';
-
-        foreach ($series as $serie){
+        foreach ($series as $serie) {
             $html .= "<li>$serie</li>";
         }
-
         $html .= '</ul>';
 
-        echo $html;
+        return $html;
     }
 }
