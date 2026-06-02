@@ -41,9 +41,7 @@ class SeriesController extends Controller
 
         //Traz determinadas informações
         //Serie::create($request->only(['nome']));
-
-
         
-        return redirect('/series');
+        return redirect('series.index');
     }
 }
