@@ -23,13 +23,26 @@ class SeriesController extends Controller
     }
 
     public function store(Request $request){
-        $nomeSerie = $request->input('nome');
+        //$nomeSerie = $request->input('nome');
+        //$nomeSerie = $request->nome;
 
         //DB::insert('INSERT INTO series (nome) VALUES (?);', [$nomeSerie]);
 
-        $serie = new Serie();
-        $serie->nome = $nomeSerie;
-        $serie->save();
+        // $serie = new Serie();
+        // $serie->nome = $nomeSerie;
+        // $serie->save();
+
+        //mass assignment
+        //Traz todas as informações da request e insere no banco
+        Serie::create($request->all());
+
+        //Traz todas as informações excerto o token
+        //Serie::create($request->except(['_token']));
+
+        //Traz determinadas informações
+        //Serie::create($request->only(['nome']));
+
+
         
         return redirect('/series');
     }
