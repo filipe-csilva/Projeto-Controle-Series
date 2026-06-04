@@ -4,7 +4,7 @@ use App\Http\Controllers\SeriesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('/series');
+    return redirect('/series');
 });
 
 //Rotas informadas individualmente
@@ -21,4 +21,4 @@ Route::get('/', function () {
     
     
     //Rotas padrões no Laravel
-    Route::resource('/series', SeriesController::class);
+    Route::resource('/series', SeriesController::class)->except(['show']);
