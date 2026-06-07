@@ -3,11 +3,13 @@
 namespace App\Repositories;
 
 use App\Http\Requests\SeriesFormRequest;
+use App\Models\Series;
+use App\Repositories\Interfaces\ISeriesRepository;
 use Illuminate\Support\Facades\DB;
 
-class EloquentSeriesRepository
+class EloquentSeriesRepository implements ISeriesRepository
 {
-    public function Add(SeriesFormRequest $request)
+    public function Add(SeriesFormRequest $request):Series
     {
         //DB::beginTransaction();
         return DB::transaction(function() use ($request){
