@@ -1,5 +1,5 @@
 <x-layout title="Login">
-    <form action="{{ route('store') }}" method="post">
+    <form method="post">
         <div class="form-group">
             <label for="email" class="form-label">Email</label>
             <input type="email" name="email" id="email" class="form-control">

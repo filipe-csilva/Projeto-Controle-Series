@@ -28,12 +28,14 @@ Route::get('/', function () {
     //Rotas padrões no Laravel
     Route::resource('/series', SeriesController::class)->except(['show']);
 
+    Route::middleware(Autenticador::class)->group(function () {
     Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])->name('seasons.index');
     Route::get('/seasons/{season}/episodes', [EpisodesController::class, 'index'])->name('episodes.index');
     Route::post('/seasons/{season}/episodes', [EpisodesController::class, 'update'])->name('episodes.update');
+    });
 
     Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/login', [LoginController::class,'login'])->name('store');
+    Route::post('/login', [LoginController::class,'login'])->name('signin');
     Route::post('/login', [LoginController::class,'destroy'])->name('logout');
 
     Route::get('/registrar', [UsersController::class,'create'])->name('users.create');
