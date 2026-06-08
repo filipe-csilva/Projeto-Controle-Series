@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Episode;
-use App\Models\Season;
 use App\Models\Series;
-use App\Repositories\EloquentSeriesRepository;
 use App\Repositories\Interfaces\ISeriesRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 //use Illuminate\Support\Facades\DB;
 
