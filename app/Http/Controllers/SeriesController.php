@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SeriesCreated AS SeriesCreatedEvent;
 use App\Http\Requests\SeriesFormRequest;
 use App\Mail\SeriesCreated;
 use App\Models\Series;
@@ -52,21 +53,30 @@ class SeriesController extends Controller
     public function store(SeriesFormRequest $request){
 
         $serie = $this->repository->add($request);
+        $seriesCreatedEvent = new SeriesCreatedEvent(
+            $serie->name,
+            $serie->Id,
+            $serie->seasonsQty,
+            $serie->episodesPerSeason,
+        );
+        //SeriesCreatedEvent::dispatch(); //gera o evento
 
-        $userList = User::all(); 
+        event($seriesCreatedEvent);
 
-        //Envia para cada usuário da lista
-        foreach($userList as $index => $user){
-            $email = new SeriesCreated(
-                $serie->name,
-                $serie->id,
-                $request->seasonsQty,
-                $request->episodesPerSeason,
-            );
-            $when = now()->addSeconds($index * 3);
-            //$when->modify($index * 2 .' seconds');
-            Mail::to($user)->queue($when, $email);
-        }
+        // $userList = User::all(); 
+
+        // //Envia para cada usuário da lista
+        // foreach($userList as $index => $user){
+        //     $email = new SeriesCreated(
+        //         $serie->name,
+        //         $serie->id,
+        //         $request->seasonsQty,
+        //         $request->episodesPerSeason,
+        //     );
+        //     $when = now()->addSeconds($index * 3);
+        //     //$when->modify($index * 2 .' seconds');
+        //     Mail::to($user)->queue($when, $email);
+        // }
 
         //Envia para o usuário conectado
         // $email = new SeriesCreated(
