@@ -19,6 +19,12 @@
                 <input type="text" id="episodesPerSeason" name="episodesPerSeason" class="form-control" value="{{ old('episodesPerSeason') }}">
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="cover" class="form-label">Capa</label>
+                <input type="file" name="cover" id="cover" class="form-control">
+            </div>
+        </div>
 
         <button type="submit" class="btn btn-primary">
             Adicionar

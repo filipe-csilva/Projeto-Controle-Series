@@ -8,7 +8,7 @@ use App\Events\SeriesCreated AS SeriesCreatedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class EmailUsersAbountSeriesCreated
+class EmailUsersAbountSeriesCreated implements ShouldQueue
 {
     /**
      * Create the event listener.
