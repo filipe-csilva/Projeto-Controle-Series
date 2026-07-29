@@ -42,7 +42,7 @@ Route::get('/', function () {
 
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class,'login'])->name('signin');
-    Route::post('/login', [LoginController::class,'destroy'])->name('logout');
+    Route::post('/logout', [LoginController::class,'destroy'])->name('logout');
 
     Route::get('/registrar', [UsersController::class,'create'])->name('users.create');
     Route::post('/registrar', [UsersController::class,'store'])->name('users.store');

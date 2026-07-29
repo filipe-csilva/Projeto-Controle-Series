@@ -11,7 +11,11 @@
         <div class="container-fluid">
             <a href="{{ route('series.index') }}" class="navbar-brand">Séries</a>
             @auth
-                <a href="{{ route('logout') }}" class="btn btn-danger">Sair</a>
+                {{-- <a href="{{ route('logout') }}" class="btn btn-danger">Sair</a> --}}
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Sair</button>
+                </form>
             @endauth
         </div>
     </nav>
