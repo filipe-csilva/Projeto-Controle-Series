@@ -8,6 +8,7 @@ use App\Models\Season;
 use App\Models\Series;
 use App\Repositories\Interfaces\ISeriesRepository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EloquentSeriesRepository implements ISeriesRepository
 {
@@ -33,7 +34,26 @@ class EloquentSeriesRepository implements ISeriesRepository
 
             //mass assignment
             //Traz todas as informações da request e insere no banco
-            $serie = Series::create($request->all());
+            //$serie = Series::create($request->all());
+            // $serie = Series::create([
+            //     'name' => $request->name,
+            //     'cover' => $request->coverPath
+            // ]);
+
+            $data = [
+                'name' => $request->name,
+            ];
+
+             // Só adiciona o cover se ele existir
+            if (isset($request->coverPath) && $request->coverPath) {
+                $data['cover'] = $request->coverPath;
+            } else {
+                // Se não tiver imagem, define um valor padrão ou null
+                $data['cover'] = 'series_cover/default.jpg'; // ou 'default.png'
+            }
+
+            $serie = Series::create($data);
+
 
             //Traz todas as informações excerto o token
             //Serie::create($request->except(['_token']));

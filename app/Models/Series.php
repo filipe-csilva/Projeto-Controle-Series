@@ -10,7 +10,11 @@ use Override;
 class Series extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'cover'];
+
+    protected $attributes = [
+        'cover' => 'series_cover/default.jpg', // ou 'default-image.jpg'
+    ];
 
     public function seasons(){
         return $this->hasMany(Season::class, 'series_id');

@@ -11,6 +11,8 @@ use App\Repositories\Interfaces\ISeriesRepository;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 //use Illuminate\Support\Facades\DB;
 
@@ -51,11 +53,35 @@ class SeriesController extends Controller
     // }
     
     public function store(SeriesFormRequest $request){
+        if($request->hasFile('cover')){
+
+            $file = $request->file('cover');
+
+            // Validação customizada
+            $validator = Validator::make(
+                ['cover' => $file],
+                ['cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']
+            );
+
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+
+            // Salva a imagem
+            $coverPath = $file->store('series_cover', 'public');
+            // Ou $path = $file->storeAs('series', $file->getClientOriginalName());
+
+            $request->coverPath = $coverPath;
+        }
 
         $serie = $this->repository->add($request);
+
+        $serie->seasonsQty = $request->seasonsQty;
+        $serie->episodesPerSeason = $request->episodesPerSeason;
+
         $seriesCreatedEvent = new SeriesCreatedEvent(
             $serie->name,
-            $serie->Id,
+            $serie->id,
             $serie->seasonsQty,
             $serie->episodesPerSeason,
         );
@@ -97,6 +123,9 @@ class SeriesController extends Controller
 
         //$serie = Serie::find($request->serie);
 
+        if ($series->cover && Storage::disk('public')->exists($series->cover) && $series->cover != 'series_cover/default.jpg') {
+            Storage::disk('public')->delete($series->cover);
+        }
 
         //Serie::destroy($request->series);
         $series->delete();

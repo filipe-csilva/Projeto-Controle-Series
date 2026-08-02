@@ -5,9 +5,12 @@
     <ul class="list-group">
         @foreach ($series as $serie)
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="{{ route('seasons.index', $serie->id) }}">{{ $serie->name }}</a>
-                <span class="d-flex">
-                    @auth
+                <div class="d-flex align-items-center">
+                    <img src="{{ asset('storage/' . $serie->cover) }}" class="me-3" width="100px" />
+                    <a href="{{ route('seasons.index', $serie->id) }}">{{ $serie->name }}</a>
+                </div>
+                @auth
+                    <span class="d-flex">
                         <a href="{{ route('series.edit', $serie->id) }}" class="btn btn-primary btn-sm">Editar</a>
                         <form action="{{ route('series.destroy', $serie->id) }}" method="post">
                             @csrf
@@ -16,8 +19,8 @@
                                 Excluir
                             </button>
                         </form>
-                    @endauth
-                </span>
+                    </span>
+                @endauth
             </li>                
         @endforeach
     </ul>
