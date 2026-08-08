@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SeriesFormRequest;
+use App\Repositories\SeriesRepository;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 class SeriesController extends Controller
 {
-    public function __construct(private SerieRepository $serieRepository) {
+    public function __construct(private SeriesRepository $serieRepository) {
         
     }
 
@@ -33,7 +34,11 @@ class SeriesController extends Controller
     
     public function index()
     {
-        return Series::all();        
+        $listSeries = Series::all();
+
+        if($listSeries === null){return response()->json(['message' => 'Series not found'], 404);}
+
+        return $listSeries;
     }
 
     #[OA\Parameter(
@@ -56,8 +61,13 @@ class SeriesController extends Controller
 
     public function show(Series $series)
     {
-        return response()->json($series);
+        return $series;
     }
+    // public function show(int $series)
+    // {
+    //     $response = Series::whereId($series)->with('seasons.episodes')->first();
+    //     return $response;
+    // }
 
     #[OA\Post(
         path: '/api/v1/series',
@@ -95,8 +105,13 @@ class SeriesController extends Controller
         description: 'Série criada'
     )]
 
+    // Antes da criação do repository
+    // public function store(SeriesFormRequest $request){
+    //     return response()->json(Series::create($request->all()), 201);
+    // }
+
     public function store(SeriesFormRequest $request){
-        return response()->json(Series::create($request->all()), 201);
+        return response()->json($this->serieRepository->add($request), 201);
     }
 
     #[OA\Put(
@@ -122,11 +137,6 @@ class SeriesController extends Controller
                     property: 'name',
                     type: 'string',
                     example: 'Serie Name'
-                ),
-                new OA\Property(
-                    property: 'seasonsQty',
-                    type: 'integer',
-                    example: 0
                 )
             ]
         )
@@ -142,6 +152,31 @@ class SeriesController extends Controller
         $series->fill($request->all());
         $series->save();
 
-        return to_route('series.index')->with('mensagem.sucesso', "Série '{$series->name}' atualizada com sucesso!");
+        return $series;
+    }
+
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        required: true,
+        description: 'ID da série',
+        schema: new OA\Schema(type: 'integer')
+    )]
+
+    #[OA\Response(
+        response: 200,
+        description: 'Série Deletada'
+    )]
+
+    #[OA\Response(
+        response: 404,
+        description: 'Série não encontrada'
+    )]
+
+
+    public function destroy(int $series)
+    {
+        Series::destroy($series);
+        return response()->noContent();
     }
 }
