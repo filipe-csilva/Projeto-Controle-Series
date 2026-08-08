@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Repositories;
 
 use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
 
-interface ISeriesRepository
+interface SeriesRepository
 {
     public function add(SeriesFormRequest $request): Series;
 }

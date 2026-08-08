@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\Http\Requests\SeriesFormRequest;
+use App\Repositories\SeriesRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Repositories\Interfaces\ISeriesRepository;
 use Tests\TestCase;
 
 class SeriesRepositoryTest extends TestCase
@@ -22,7 +22,7 @@ class SeriesRepositoryTest extends TestCase
         /**
          * @var ISeriesRepository $repository
          */
-        $repository = $this->app->make(ISeriesRepository::class);
+        $repository = $this->app->make(SeriesRepository::class);
         $request = new SeriesFormRequest();
         $request->name = $serieTeste;
         $request->seasonsQty = 1;

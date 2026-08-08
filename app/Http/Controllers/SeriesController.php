@@ -7,18 +7,18 @@ use App\Http\Requests\SeriesFormRequest;
 use App\Mail\SeriesCreated;
 use App\Models\Series;
 use App\Models\User;
-use App\Repositories\Interfaces\ISeriesRepository;
+use App\Repositories\SeriesRepository;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 //use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
-    public function __construct(private ISeriesRepository $repository)
+    public function __construct(private SeriesRepository $repository)
     {
         
     }

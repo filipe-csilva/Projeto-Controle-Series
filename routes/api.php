@@ -14,5 +14,6 @@ Route::prefix('v1')->group(function () {
         return response()->json(['message' => 'API funcionando!']);
     });
     
-    Route::get('/series', [SeriesController::class, 'index']);
+    //Route::get('/series', [SeriesController::class, 'index']); //Rota individual
+    Route::apiResource('/series', SeriesController::class);
 });

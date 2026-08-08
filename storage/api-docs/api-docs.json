@@ -1,0 +1,154 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Sistema de Séries API",
+        "description": "Documentação da API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/series": {
+            "get": {
+                "tags": [
+                    "Series"
+                ],
+                "summary": "List Series",
+                "operationId": "listSeries",
+                "responses": {
+                    "200": {
+                        "description": "Lista de séries retornada com sucesso"
+                    },
+                    "404": {
+                        "description": "Falha na solicitação"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Series"
+                ],
+                "summary": "Update série",
+                "operationId": "UpdateSerie",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da série",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Serie Name"
+                                    },
+                                    "seasonsQty": {
+                                        "type": "integer",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Séries atualizada com sucesso"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Series"
+                ],
+                "summary": "Create serie",
+                "operationId": "CreateSerie",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Serie Name"
+                                    },
+                                    "seasonsQty": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "episodesPerSeason": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Série criada"
+                    }
+                }
+            }
+        },
+        "/api/": {
+            "get": {
+                "tags": [
+                    "Teste"
+                ],
+                "summary": "Endpoint de teste",
+                "operationId": "testApi",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "responses": {
+            "200": {
+                "description": "Série encontrada"
+            },
+            "404": {
+                "description": "Série não encontrada"
+            }
+        },
+        "parameters": {
+            "id": {
+                "name": "id",
+                "in": "path",
+                "description": "ID da série",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Teste",
+            "description": "Endpoints de teste"
+        },
+        {
+            "name": "Series",
+            "description": "Series Endpoints"
+        }
+    ]
+}

@@ -3,12 +3,12 @@
 namespace App\Providers;
 
 use App\Repositories\EloquentSeriesRepository;
-use App\Repositories\Interfaces\ISeriesRepository;
+use App\Repositories\SeriesRepository;
 use Illuminate\Support\ServiceProvider;
 
 class SeriesRepositoryProvider extends ServiceProvider
 {
     public array $bindings = [
-        ISeriesRepository::class => EloquentSeriesRepository::class
+        SeriesRepository::class => EloquentSeriesRepository::class
     ];
 }

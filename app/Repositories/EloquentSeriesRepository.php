@@ -6,11 +6,10 @@ use App\Http\Requests\SeriesFormRequest;
 use App\Models\Episode;
 use App\Models\Season;
 use App\Models\Series;
-use App\Repositories\Interfaces\ISeriesRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class EloquentSeriesRepository implements ISeriesRepository
+class EloquentSeriesRepository implements SeriesRepository
 {
     public function Add(SeriesFormRequest $request):Series
     {
