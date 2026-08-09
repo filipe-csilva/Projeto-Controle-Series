@@ -46,6 +46,8 @@ return [
                 'annotations' => [
                     app_path('OpenApi.php'),
                     app_path('Http/Controllers/Api/SeriesController.php'),
+                    app_path('Http/Controllers/Api/SeasonsController.php'),
+                    app_path('Http/Controllers/Api/EpisodesController.php'),
                     app_path('Http/Controllers/Api/SwaggerTestController.php'),
 
                 ],

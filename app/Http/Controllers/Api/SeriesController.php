@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SeriesFormRequest;
+use App\Http\Requests\UpdateSeriesFormRequest;
 use App\Repositories\SeriesRepository;
 use App\Models\Series;
 use Illuminate\Http\Request;
@@ -32,13 +33,21 @@ class SeriesController extends Controller
         description: 'Falha na solicitação'
     )]
     
-    public function index()
+    public function index(Request $request)
     {
-        $listSeries = Series::all();
+        // if(!$request->has('name')){
+        //     $listSeries = Series::all();
+        //     if($listSeries === null){return response()->json(['message' => 'Series not found'], 404);}
+        //     return $listSeries;
+        // }
+        
+        // return Series::whereName($request->name)->get();
 
-        if($listSeries === null){return response()->json(['message' => 'Series not found'], 404);}
-
-        return $listSeries;
+        $query = Series::query();
+        if($request->has('name')){
+            $query->where('name', $request->name);
+        }
+        return $query->paginate();
     }
 
     #[OA\Parameter(
@@ -59,9 +68,11 @@ class SeriesController extends Controller
         description: 'Série não encontrada'
     )]
 
-    public function show(Series $series)
+    public function show(int $series)
     {
-        return $series;
+        $seriesModel = Series::with('seasons.episodes')->find($series);
+        if($seriesModel === null){return response()->json(['message' => 'Series not found'], 404);}
+        return $seriesModel;
     }
     // public function show(int $series)
     // {
@@ -147,7 +158,7 @@ class SeriesController extends Controller
         description: 'Séries atualizada com sucesso'
     )]
 
-    public function update(Series $series, SeriesFormRequest $request){
+    public function update(Series $series, UpdateSeriesFormRequest $request){
         //$series->nome = $request->nome;
         $series->fill($request->all());
         $series->save();
